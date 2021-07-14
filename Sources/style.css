@@ -1,0 +1,47 @@
+
+/* Styling for HTML elements */
+
+img {
+    max-width: 100%;
+    border: 4mm;
+    padding-bottom: 5px;
+    border-radius: 10pt;
+    float:left;
+  }
+  
+  h1, h2, h3, p{
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(110, 119, 133);
+  }
+  
+  h1{
+    font-size: 32px;
+    font-weight: bold;
+    text-align:left;
+    font-weight: bolder;
+  }
+  
+  h2{
+    font-size: 24px;
+    font-weight: bold;
+    text-align:left;
+    color: black;
+  }
+  
+  h3{
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  p{
+    color: rgb(22, 22, 22);
+    text-align:left;
+    float:left;
+  }
+  
+  body {
+    width: 100%;
+    min-height:100%;
+    background-color: rgb(211, 211, 211);
+  }
+  
