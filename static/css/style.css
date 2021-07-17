@@ -1,21 +1,18 @@
 
 /* Styling for HTML elements */
 
-img {
-    max-width: 100%;
-    border: 4mm;
-    padding-bottom: 5px;
-    border-radius: 10pt;
-    float:left;
+nav {font-size:xx-large;
+  font-style: oblique;
+  font-weight: bolder;
+  text-decoration-color: blanchedalmond;
   }
   
   h1, h2, h3, p{
     font-family: Tahoma, Geneva, Verdana, sans-serif;
-    color: rgb(110, 119, 133);
   }
   
   h1{
-    font-size: 32px;
+    font-size: 42px;
     font-weight: bold;
     text-align:left;
     font-weight: bolder;
@@ -25,7 +22,6 @@ img {
     font-size: 24px;
     font-weight: bold;
     text-align:left;
-    color: black;
   }
   
   h3{
@@ -33,15 +29,16 @@ img {
     text-align: center;
   }
   
-  p{
-    color: rgb(22, 22, 22);
-    text-align:center;
-    float:left;
-  }
+ img {
+    shape-image-threshold: inherit;
+  } */
   
-  body {
+body {
     width: 100%;
     min-height:100%;
-    background-color: rgb(211, 211, 211);
-  }
-  
+  }  
+
+card {
+
+  align-self:flex-end;
+}  
