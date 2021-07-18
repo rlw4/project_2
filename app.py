@@ -7,12 +7,12 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 
 password_1 = "postgres"
-password_2 = "postgres"
-database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/ETL_7"
+password_2 = "superuser"
+database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/DataScienceJob"
 
 engine = create_engine(database_path)
 connection = engine.connect()
@@ -32,7 +32,10 @@ def welcome():
         f"/salary<br/>"
         f"/state_boundary<br/>"
     )
-
+#Tianyue added interactive map route
+@app.route("/interactive_map")
+def interactive_map():
+    return render_template('interactive_map.html')
 @app.route("/housing")
 def housing():
     # Create session (link) from Python to the DB
