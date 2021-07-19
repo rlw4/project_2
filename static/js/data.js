@@ -126,33 +126,54 @@ function createObj(){
     
     d3.json("/housing").then(data => {
         d3.json("/salary").then(salary => {
-            var salary = salary;
-            //console.log(salary);
-            var housing = data;
-            var feature = statesData.features;
-            //console.log(feature);
-            for (var i=0; i<feature.length;i++){
-                abbrState=stateNameToAbbreviation(feature[i].properties.name);
-                feature[i].properties.name = abbrState;
-                for (var j=0; j<housing.length; j++){
-                    if (feature[i].properties.name === housing[j].state){
-                    feature[i].properties.average_home_price = housing[j].average_home_price;     
-                    }
-                }   
-                for (var a=0; a<salary.length; a++){
-                    feature[i].properties.annual_wage_median = {};
-                    if (feature[i].properties.name === salary[a].state){
-                        if (salary[a].job_title==='Data Engineer'){
-                            feature[i].properties.annual_wage_median["Data Engineer"] = salary[a].annual_wage_median; 
-                        } else if (salary[a].job_title==='Data Engineer'){
-                            feature[i].properties.annual_wage_median["Data Scientist"] = salary[a].annual_wage_median;
-                        } else {
-                            feature[i].properties.annual_wage_median.data_engineer = "";
-                            feature[i].properties.annual_wage_median.data_scientist = "";
+            d3.json("/ds_jobs").then(job =>{
+                d3.json("/breweries").then(breweries =>{
+                    var breweryperstate = Array.from(d3.rollup(breweries, v=>v.length,d=>d.state),([key, value]) => ({key, value}));
+                    var jobperstate = Array.from(d3.rollup(job, v=>v.length,d=>d.state),([key, value]) => ({key, value}));
+                    //console.log(allGroup);
+                    //console.log(salary);
+                    var housing = data;
+                    var feature = statesData.features;
+                    //console.log(feature);
+                    for (var i=0; i<feature.length;i++){
+                        feature[i].properties.annual_wage_median = {"de":"","ds":""};
+                        abbrState=stateNameToAbbreviation(feature[i].properties.name);
+                        feature[i].properties.name = abbrState;
+                        for (var h=0; h<jobperstate.length; h++){
+                            if (feature[i].properties.name === jobperstate[h].key){
+                                feature[i].properties.job_count = jobperstate[h].value;     
+                                }
                         }
-                    }
-                }
-            }    
+                        for (var b=0; b<breweryperstate.length; b++){
+                            if (feature[i].properties.name === breweryperstate[b].key){
+                                feature[i].properties.breweries_count = breweryperstate[b].value;     
+                                }
+                        }
+                        for (var j=0; j<housing.length; j++){
+                            if (feature[i].properties.name === housing[j].state){
+                            feature[i].properties.average_home_price = housing[j].average_home_price;     
+                            }
+                        }   
+                        for (var a=0; a<salary.length; a++){
+                            if (feature[i].properties.name === salary[a].state){
+                                if (salary[a].job_title==='Data Engineer'){
+                                    feature[i].properties.annual_wage_median.de = salary[a].annual_wage_median;
+                                    console.log(feature[i].properties.name);
+                                    console.log(feature[i].properties.annual_wage_median); 
+                                } else if (salary[a].job_title==='Data Scientist'){
+                                    feature[i].properties.annual_wage_median.ds = salary[a].annual_wage_median;
+                                    console.log(feature[i].properties.name);
+                                    console.log(feature[i].properties.annual_wage_median);
+                                } else {
+                                    feature[i].properties.annual_wage_median.data_engineer = 0;
+                                    feature[i].properties.annual_wage_median.data_scientist = 0;
+                                }
+                            }
+                        }      
+                    }    
+    
+        })
+        })
     })
 })
 
