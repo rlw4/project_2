@@ -1,3 +1,4 @@
+//createObj();
 function createObj(){
     function stateNameToAbbreviation(abbreviation) {
         let states = {
@@ -123,7 +124,18 @@ function createObj(){
     ]};
   
     //var housing  = [{"state":"CA","average_home_price":567563.5833000001},{"state":"TX","average_home_price":208699.6667},{"state":"NY","average_home_price":271862.0833},{"state":"FL","average_home_price":257649.0833},{"state":"IL","average_home_price":210242.8333},{"state":"PA","average_home_price":194551.4167},{"state":"OH","average_home_price":150804.0},{"state":"MI","average_home_price":172127.1667},{"state":"GA","average_home_price":203632.0833},{"state":"NC","average_home_price":204960.75},{"state":"NJ","average_home_price":349843.6667},{"state":"VA","average_home_price":285270.5},{"state":"WA","average_home_price":412988.0833},{"state":"MA","average_home_price":434274.0},{"state":"IN","average_home_price":155086.9167},{"state":"AZ","average_home_price":267167.6667},{"state":"TN","average_home_price":184767.25},{"state":"MO","average_home_price":164080.5833},{"state":"MD","average_home_price":323450.0833},{"state":"WI","average_home_price":193552.5},{"state":"MN","average_home_price":261241.5},{"state":"CO","average_home_price":414845.3333},{"state":"AL","average_home_price":142704.5},{"state":"SC","average_home_price":192229.3333},{"state":"LA","average_home_price":170722.9167},{"state":"KY","average_home_price":146302.3333},{"state":"OR","average_home_price":365922.1667},{"state":"OK","average_home_price":129732.25},{"state":"CT","average_home_price":275120.5833},{"state":"IA","average_home_price":152071.5},{"state":"MS","average_home_price":125752.5},{"state":"AR","average_home_price":129892.25},{"state":"KS","average_home_price":153547.6667},{"state":"UT","average_home_price":354395.4167},{"state":"NV","average_home_price":319823.25},{"state":"NM","average_home_price":203118.75},{"state":"WV","average_home_price":108142.0},{"state":"NE","average_home_price":177362.4167},{"state":"ID","average_home_price":282628.4167},{"state":"HI","average_home_price":742220.8333000001},{"state":"ME","average_home_price":238261.0},{"state":"NH","average_home_price":303511.5},{"state":"RI","average_home_price":307510.25},{"state":"MT","average_home_price":286108.3333},{"state":"DE","average_home_price":262325.1667},{"state":"SD","average_home_price":213213.8333},{"state":"AK","average_home_price":299099.0},{"state":"ND","average_home_price":236859.0833},{"state":"VT","average_home_price":261071.3333},{"state":"DC","average_home_price":734414.9166999999},{"state":"WY","average_home_price":248255.0833}]
-    
+    var feature = statesData.features;
+    //let houses =[];
+    //let salary =[];
+    //let breweries = [];
+    //let jobs =[];
+
+    //d3.json("/housing").then(data => {
+    //    houses = data;
+    //    return houses;
+    //})
+
+    //houses.map(item=>console.log(item));
     d3.json("/housing").then(data => {
         d3.json("/salary").then(salary => {
             d3.json("/ds_jobs").then(job =>{
@@ -133,7 +145,7 @@ function createObj(){
                     //console.log(allGroup);
                     //console.log(salary);
                     var housing = data;
-                    var feature = statesData.features;
+
                     //console.log(feature);
                     for (var i=0; i<feature.length;i++){
                         feature[i].properties.annual_wage_median = {"de":"","ds":""};
@@ -158,12 +170,8 @@ function createObj(){
                             if (feature[i].properties.name === salary[a].state){
                                 if (salary[a].job_title==='Data Engineer'){
                                     feature[i].properties.annual_wage_median.de = salary[a].annual_wage_median;
-                                    console.log(feature[i].properties.name);
-                                    console.log(feature[i].properties.annual_wage_median); 
                                 } else if (salary[a].job_title==='Data Scientist'){
                                     feature[i].properties.annual_wage_median.ds = salary[a].annual_wage_median;
-                                    console.log(feature[i].properties.name);
-                                    console.log(feature[i].properties.annual_wage_median);
                                 } else {
                                     feature[i].properties.annual_wage_median.data_engineer = 0;
                                     feature[i].properties.annual_wage_median.data_scientist = 0;
@@ -176,10 +184,5 @@ function createObj(){
         })
     })
 })
-
-    
-    
-
-
-return statesData;
+return feature;
 } 
