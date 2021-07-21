@@ -23,19 +23,15 @@ app = Flask(__name__)
 
 @app.route("/")
 def welcome():
-    """List all available api routes."""
-    return (
-        f"Available Routes:<br/>"
-        f"/housing<br/>"
-        f"/ds_jobs<br/>"
-        f"/breweries<br/>"
-        f"/salary<br/>"
-        f"/state_boundary<br/>"
-    )
+    return render_template('index.html')
+@app.route("/about_us.html")
+def aboutus():
+    return render_template('about_us.html')
 #Tianyue added interactive map route
-@app.route("/interactive_map")
+@app.route("/interactive_map.html")
 def interactive_map():
     return render_template('interactive_map.html')
+
 @app.route("/housing")
 def housing():
     # Create session (link) from Python to the DB
