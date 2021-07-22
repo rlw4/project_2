@@ -67,10 +67,17 @@ d3.json("/ds_jobs").then(data => {
         // console.log(categories_sorted[0])
         // console.log(categories_sorted[0][0])
         // console.log(categories_sorted[0][1])
+        // console.log(categories_sorted[1][0])
+        // console.log(categories_sorted[1][1])
+
+        // console.log(categories_sorted.slice(0,10));
 
         // for(var i = 0; i < 50; i++) {
         //     console.log(categories_sorted[i]);
         // }
+
+        console.log("Test: ");
+        console.log(categories_sorted.length);
 
         // -----------------------------------------------------------------------
         
@@ -80,7 +87,24 @@ d3.json("/ds_jobs").then(data => {
         var categories_sorted_nums = categories_sorted.map(record => record[1]);
         var categories_sorted_min = d3.min(categories_sorted_nums)
         var categories_sorted_max = d3.max(categories_sorted_nums)
-    
+
+        console.log(categories_sorted_nums);
+
+        var arraySum = 0;
+
+        categories_sorted_nums.forEach(function(x) {
+            arraySum = arraySum + x
+        });
+
+        console.log(arraySum);
+
+        var rfreqArray = categories_sorted_nums.map(x => x / arraySum);
+
+        // console.log(rfreqArray.slice(0, 10));
+        // See Plotly  y_bar, below
+        var y_bar2 = rfreqArray.slice(0, 10);
+
+        
         // Write function to scale word counts in x to be scaled between a and b...
         // ...based on min and max
 
@@ -131,7 +155,7 @@ d3.json("/ds_jobs").then(data => {
             for(var j = 0; j < word_count; j++) {
                 tempWords[j] = {};
                 tempWords[j]["word"] = arr_sorted[j][0];
-                tempWords[j]["size"] = scaleSize(arr_sorted[j][1], 10, 100, arr_sorted_min, arr_sorted_max);
+                tempWords[j]["size"] = scaleSize(arr_sorted[j][1], 10, 90, arr_sorted_min, arr_sorted_max);
                 // tempWords[j]["color"] = colorArray[j];
                 // console.log(tempWords[j]);
             };
@@ -145,14 +169,19 @@ d3.json("/ds_jobs").then(data => {
         var x_bar = [];
         var y_bar = [];
 
+        // Take the first 10 only.
         for (var j = 0; j < 10; j++) {
             x_bar[j] = categories_sorted[j][0];
             y_bar[j] = categories_sorted[j][1];
         }
 
+        // console.log("Check x and y arrays: ");
+        // console.log(x_bar);
+        // console.log(y_bar);
+
         var bar_trace = {
             x: x_bar,
-            y: y_bar,
+            y: y_bar2, // use y_bar for counts
             type: "bar",
             text: x_bar,
             marker: {
@@ -164,16 +193,22 @@ d3.json("/ds_jobs").then(data => {
         var bar_data = [bar_trace];
 
         var bar_layout = {
-            title: "Top 10",
-            xaxis: {},
-            yaxis: {title: "Counts"}
+            title: {
+                text: "Top 10"
+            },
+            titlefont: {
+                size: 24
+            },
+            xaxis: {
+            },
+            yaxis: {title: "Relative frequency"}
         };
 
         Plotly.newPlot("bar", bar_data, bar_layout);
 
-
         var myWords = makeWords(categories_sorted, categories_sorted_min, categories_sorted_max);
 
+        
         // -----------------------------------------------------------------------
     
         // set the dimensions and margins of the graph
@@ -192,15 +227,13 @@ d3.json("/ds_jobs").then(data => {
         // Wordcloud features that are different from one word to the other must be here
         var layout = d3.layout.cloud()
                     .size([width, height])
-                    .words(myWords.map(function(d) { return {text: d.word, size:d.size, fill:d.color}; }))
+                    .words(myWords.map(function(d) { return {text: d.word, size:d.size}; }))
                     .padding(5)        //space between words
                     .rotate(function() { return ~~(Math.random() * 2) * 90; })
                     .fontSize(function(d) { return d.size; })      // font size of words
                     .on("end", draw);
         layout.start();
 
-        myColors = ["red", "orange"];
-        
         // This function takes the output of 'layout' above and draw the words
         // Wordcloud features that are THE SAME from one word to the other can be here
         function draw(words) {
@@ -220,7 +253,9 @@ d3.json("/ds_jobs").then(data => {
             .text(function(d) { return d.text; });
         }
     };
+    // End populateWords
 
+    // Call and pass Sector as default (since it is the first category on menu)
     populateWords("Sector");
 
     // handle on click event
