@@ -11,8 +11,8 @@ from flask import Flask, jsonify, render_template
 
 
 password_1 = "postgres"
-password_2 = "postgres"
-database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/etl_7"
+password_2 = "superuser"
+database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/DataScienceJob"
 
 engine = create_engine(database_path)
 connection = engine.connect()
@@ -24,6 +24,7 @@ app = Flask(__name__)
 @app.route('/index.html')
 def welcome():
     return render_template('index.html')
+
 @app.route('/about_us.html')
 def aboutus():
     return render_template('about_us.html')
@@ -41,7 +42,9 @@ def housing():
     housing_df = pd.read_sql("SELECT * FROM housing", connection)
     housing_json = housing_df.to_json(orient = "records")
     return housing_json
-
+@app.route('/nostalgia.html')
+def nostalgia():
+    return render_template('nostalgia.html')
 @app.route('/ds_jobs')
 def ds_jobs():
     ds_jobs_df = pd.read_sql("SELECT * FROM ds_jobs", connection)
