@@ -12,7 +12,7 @@ from flask import Flask, jsonify, render_template
 
 password_1 = "postgres"
 password_2 = "postgres"
-database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/ETL_7"
+database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/etl_7"
 
 engine = create_engine(database_path)
 connection = engine.connect()
