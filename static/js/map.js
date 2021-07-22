@@ -35,13 +35,13 @@ var baseMaps = {
 // Create additional Control placeholders
 function addControlPlaceholders(map) {
   var corners = map._controlCorners,
-      l = 'leaflet-',
-      container = map._controlContainer;
+    l = 'leaflet-',
+    container = map._controlContainer;
 
   function createCorner(vSide, hSide) {
-      var className = l + vSide + ' ' + l + hSide;
+    var className = l + vSide + ' ' + l + hSide;
 
-      corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+    corners[vSide + hSide] = L.DomUtil.create('div', className, container);
   }
 
   createCorner('verticalcenter', 'left');
@@ -49,9 +49,9 @@ function addControlPlaceholders(map) {
 }
 
 //display planning breweries in a different color from the rest
-function fillColor(type){
+function fillColor(type) {
   var color;
-  if (type === "planning"){
+  if (type === "planning" || type === "Planning") {
     color = "gold";
   } else {
     color = "lightgreen";
@@ -60,22 +60,22 @@ function fillColor(type){
 }
 
 // Create markers for breweries and add to overlayMaps placeholder.
-d3.json("/breweries").then(data =>{
-  for (var i=0; i<data.length; i++){
+d3.json("/breweries").then(data => {
+  for (var i = 0; i < data.length; i++) {
     var lat = data[i].latitude;
     var lon = data[i].longitude;
-    if (lat & lon){
-      var breweries = L.circleMarker([lat,lon], {
-        fillOpacity: 1,
-        color: "gray",
+    if (lat & lon) {
+      var breweries = L.circleMarker([lat, lon], {
+        fillOpacity: 1,
+        color: "gray",
         weight: 0.5,
         fillColor: fillColor(data[i].brewery_type),
         radius: 5,
-      }).bindPopup("<p>Name:" + data[i].name + "<br>Brewery Type: "+data[i].brewery_type+"<hr>website:<a href ="+data[i].website_url+">"+data[i].website_url+"</a></p3>"
+      }).bindPopup("<p>Name:" + data[i].name + "<br>Brewery Type: " + data[i].brewery_type + "<hr>website:<a href =" + data[i].website_url + ">" + data[i].website_url + "</a></p3>"
       );
       breweries.addTo(overlayMaps["Breweries"]);
-      }
     }
+  }
 })
 
 //Create the map object with default layers
@@ -97,17 +97,17 @@ var myMap = L.map("map", {
 var geojson;
 //Set boundary map style, use job_count as the color for the state
 setTimeout(timeout, 1000);
-function timeout(){
-function style(feature) {
-  return {
-    weight: 2,
-    opacity: 1,
-    color: 'white',
-    dashArray: '3',
-    fillOpacity: 0.7,
-    fillColor: getColor(feature.properties.job_count)
-  };
- }
+function timeout() {
+  function style(feature) {
+    return {
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      dashArray: '3',
+      fillOpacity: 0.7,
+      fillColor: getColor(feature.properties.job_count)
+    };
+  }
   geojson = L.geoJson(feature, {
     style: style,
     onEachFeature: onEachFeature
@@ -118,18 +118,18 @@ function style(feature) {
 // get color depending on population density value
 function getColor(d) {
   return d > 1000 ? '#800026' :
-      d > 500  ? '#BD0026' :
-      d > 200  ? '#E31A1C' :
-      d > 100  ? '#FC4E2A' :
-      d > 50   ? '#FD8D3C' :
-      d > 20   ? '#FEB24C' :
-      d > 10   ? '#FED976' :
-            '#FFEDA0';
+    d > 500 ? '#BD0026' :
+      d > 200 ? '#E31A1C' :
+        d > 100 ? '#FC4E2A' :
+          d > 50 ? '#FD8D3C' :
+            d > 20 ? '#FEB24C' :
+              d > 10 ? '#FED976' :
+                '#FFEDA0';
 }
 
-  //if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-  //  layer.bringToFront();
-  //}
+//if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+//  layer.bringToFront();
+//}
 
 function highlightFeature(e) {
   var layer = e.target;
@@ -156,8 +156,24 @@ function zoomToFeature(e) {
 
 
 //Adding legend
-var legend = L.control({position: 'bottomright'});
+var legend_b = L.control({ position: 'verticalcenterright' });
+legend_b.onAdd = function (map) {
 
+  var div = L.DomUtil.create('div', 'info legend'),
+    labels = ['<strong>Breweries</strong>'],
+    categories = ['Planning','Existing'];
+    
+    for (var i = 0; i < categories.length; i++) {
+            div.innerHTML += 
+            labels.push(
+                '<i class="circle" style="background:' + fillColor(categories[i]) + '"></i> ' +
+            (categories[i] ? categories[i] : '+'));
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+};
+
+var legend = L.control({ position: 'bottomright' });
 legend.onAdd = function (map) {
 
   var div = L.DomUtil.create('div', 'info legend'),
@@ -179,7 +195,7 @@ legend.onAdd = function (map) {
 };
 
 // Adding information box
-var info = L.control({position: 'verticalcenterleft'});
+var info = L.control({ position: 'verticalcenterleft' });
 
 info.onAdd = function () {
   this._div = L.DomUtil.create('div', 'info');
@@ -188,22 +204,34 @@ info.onAdd = function () {
 };
 
 info.update = function (props) {
-  this._div.innerHTML = '<h4>Information</h4>' +  (props ?
-    '<b>' + props.name + '</b><br /><b>Population Density: </b>' + props.density + ' people / mi<sup>2</sup><br /><b>Average Housing Price: </b>$'
-    + props.average_home_price+
-     '<br /><b>Data Scientist Annual Salary: </b>$'
-    + props.annual_wage_median.ds+' <br /><b>Data Engineer Annual Salary: </b>$'
-    + props.annual_wage_median.de+' <br /><b>Data Job Availability: </b>'
-    + props.job_count+' <br /><b>Breweries Availability: </b>'
+  this._div.innerHTML = (props ?
+    '<h4>' + props.name + ' - '+ props.abname + '</h4><br /><br/><b>Population Density: </b>' + props.density + ' people / mi<sup>2</sup><br /><br/><b>Average Housing Price: </b>$'
+    + props.average_home_price +
+    '<br /><br/><b>Data Scientist Annual Salary: </b>$'
+    + props.annual_wage_median.ds + ' <br /><br/><b>Data Engineer Annual Salary: </b>$'
+    + props.annual_wage_median.de + ' <br /><br/><b>Data Job Availability: </b>'
+    + props.job_count + ' <br /><br/><b>Breweries Availability: </b>'
     + props.breweries_count //update to meidan salary
-    : 'Hover over a state');
+    : '<b>Hover over a state to see <br/>job, housing and demographic inforamiotn <br/>about the state</b>');
 };
 
 
 addControlPlaceholders(myMap);
 info.addTo(myMap);
 legend.addTo(myMap);
-
 L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 myMap.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+myMap.on('overlayadd', function(eventLayer){
+  legend_b.addTo(myMap);
+  if (eventLayer.name === "Breweries"){
+      myMap.addControl(legend_b);
+  } 
+});
+
+myMap.on('overlayremove', function(eventLayer){
+  if (eventLayer.name === "Breweries"){
+       myMap.removeControl(legend_b);
+  } 
+});
 //console.log();
