@@ -20,28 +20,36 @@ All other componenets of the website were built with Bootstrap 5.0 CSS.
 
 Website:
 
-"DataScienceJobs":                      template
-Landing page with carousel              /index.html
+templates/
 
-"About US"
-Author information on cards             /about_us.html 
+"DataScienceJobs": Landing page with carousel             
+index.html
 
-"Data Pages"
-    "Job Cloud"                         /job_cloud.html
-    "Interactive Map"                   /interactive_map.html
-    "I wouldn't/You did anyway          /nostalgia.html
+"About US": Author information on cards             
+about_us.html 
 
+"Data Pages":
 
-static/css  style.css
+"Job Cloud":
+job_cloud.html
+                         
+"Interactive Map"                   
+interactive_map.html
 
-static/js   config.js
-            data.js
-            map.js
-            word_cloud.js
+"I wouldn't/You did anyway"
+nostalgia.html
+
+static/css/     
+style.css
+
+static/js/   
+config.js
+data.js
+map.js
+word_cloud.js
 
 images/     (see .html for pictures that were chosen)
 
-app.py      Flask app
-            w/ pandas, numpy, and sqlalchemy
+app.py      Flask app w/ pandas, numpy, and sqlalchemy
 
 
