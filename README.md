@@ -1,12 +1,12 @@
-Project 2, Group 1
+Project 2: Group 1
+
 Data Science Job Search
 
-Group Members:
+<strong> Group Members: Tianyue Yang, Corey Anderson, and Jennifer Gaddie </strong>
 
-Tianyue Yang, Corey Anderson, and Jennifer Gaddie
 (Riley Williamson also contributed to the early stages of this project.)
 
-Description: 
+<h6>Description:</h6> 
 
 Our goal was to build a simple Flask app for data science nerds looking for a job.
 
@@ -36,20 +36,21 @@ job_cloud.html
 "Interactive Map"                   
 interactive_map.html
 
-"I wouldn't/You did anyway"
+"I wouldn't/You did anyway" 
 nostalgia.html
 
 static/css/     
 style.css
 
 static/js/   
-config.js
-data.js
-map.js
+config.js   
+data.js 
+map.js  
 word_cloud.js
 
-images/     (see .html for pictures that were chosen)
+images/(see .html for pictures that were chosen)
 
-app.py      Flask app w/ pandas, numpy, and sqlalchemy
+app.py
+Flask app w/ pandas, numpy, and sqlalchemy
 
 
