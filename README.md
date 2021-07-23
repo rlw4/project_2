@@ -1,12 +1,13 @@
 Project 2: Group 1
 
-Data Science Job Search
+<strong>Data Science Job Search</strong>
 
-<strong> Group Members: Tianyue Yang, Corey Anderson, and Jennifer Gaddie </strong>
+<strong>Group Members: Tianyue Yang, Corey Anderson, and Jennifer Gaddie </strong>
 
 (Riley Williamson also contributed to the early stages of this project.)
 
-<h6>Description:</h6> 
+
+<h2>Description:</h2> 
 
 Our goal was to build a simple Flask app for data science nerds looking for a job.
 
