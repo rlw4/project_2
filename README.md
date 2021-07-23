@@ -36,7 +36,7 @@ job_cloud.html
 "Interactive Map"                   
 interactive_map.html
 
-"I wouldn't/You did anyway" 
+"I wouldn't/You did anyway"     
 nostalgia.html
 
 static/css/     
