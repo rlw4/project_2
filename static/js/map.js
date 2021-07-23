@@ -1,9 +1,7 @@
 //Create Data Object
 var feature = createObj();
-//console.log(feature);
-//console.log(feature[0].properties.job_count);
 
-//Create overlayMap
+//Create overlayMap laygroup holder
 var overlayMaps = {
   Breweries: new L.LayerGroup(),
 };
@@ -32,7 +30,7 @@ var baseMaps = {
   Street: streets,
 };
 
-// Create additional Control placeholders
+// Create additional Control placeholders for verticalcenterleft and veriticalcenterright
 function addControlPlaceholders(map) {
   var corners = map._controlCorners,
     l = 'leaflet-',
@@ -48,7 +46,7 @@ function addControlPlaceholders(map) {
   createCorner('verticalcenter', 'right');
 }
 
-//display planning breweries in a different color from the rest
+//function to display planning breweries in a different color from the rest
 function fillColor(type) {
   var color;
   if (type === "planning" || type === "Planning") {
@@ -78,8 +76,7 @@ d3.json("/breweries").then(data => {
   }
 })
 
-//Create the map object with default layers
-
+//Create functions and the map object with default layers
 function onEachFeature(feature, layer) {
   layer.on({
     mouseover: highlightFeature,
@@ -93,9 +90,10 @@ var myMap = L.map("map", {
   zoom: 4.5,
   layers: [streets]
 });
+
 //Create state boundaries on the map
 var geojson;
-//Set boundary map style, use job_count as the color for the state
+//Set boundary map style, use job_count as the color for the state, due to data load time, a settimeout function is used
 setTimeout(timeout, 1000);
 function timeout() {
   function style(feature) {
@@ -127,10 +125,7 @@ function getColor(d) {
                 '#FFEDA0';
 }
 
-//if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-//  layer.bringToFront();
-//}
-
+//functions called by onEachFeature
 function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
@@ -211,10 +206,9 @@ info.update = function (props) {
     + props.annual_wage_median.ds + ' <br /><br/><b>Data Engineer Annual Salary: </b>$'
     + props.annual_wage_median.de + ' <br /><br/><b>Data Job Availability: </b>'
     + props.job_count + ' <br /><br/><b>Breweries Availability: </b>'
-    + props.breweries_count //update to meidan salary
+    + props.breweries_count
     : '<b>Hover over a state to see <br/>job, housing and demographic inforamiotn <br/>about the state</b>');
 };
-
 
 addControlPlaceholders(myMap);
 info.addTo(myMap);
@@ -222,6 +216,7 @@ legend.addTo(myMap);
 L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 myMap.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
+//show/hide the breweries marker layer
 myMap.on('overlayadd', function(eventLayer){
   legend_b.addTo(myMap);
   if (eventLayer.name === "Breweries"){
@@ -234,4 +229,3 @@ myMap.on('overlayremove', function(eventLayer){
        myMap.removeControl(legend_b);
   } 
 });
-//console.log();

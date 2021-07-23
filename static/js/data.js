@@ -1,5 +1,6 @@
 //createObj();
 function createObj() {
+    //convert state name to state abbreviation
     function stateNameToAbbreviation(abbreviation) {
         let states = {
             "arizona": "AZ",
@@ -68,6 +69,8 @@ function createObj() {
 
         return null;
     }
+
+    //States data from census to give use popualtion density and geojson information
     var statesData = {
         "type": "FeatureCollection", "features": [
             { "type": "Feature", "id": "01", "properties": { "name": "Alabama", "density": 94.65 }, "geometry": { "type": "Polygon", "coordinates": [[[-87.359296, 35.00118], [-85.606675, 34.984749], [-85.431413, 34.124869], [-85.184951, 32.859696], [-85.069935, 32.580372], [-84.960397, 32.421541], [-85.004212, 32.322956], [-84.889196, 32.262709], [-85.058981, 32.13674], [-85.053504, 32.01077], [-85.141136, 31.840985], [-85.042551, 31.539753], [-85.113751, 31.27686], [-85.004212, 31.003013], [-85.497137, 30.997536], [-87.600282, 30.997536], [-87.633143, 30.86609], [-87.408589, 30.674397], [-87.446927, 30.510088], [-87.37025, 30.427934], [-87.518128, 30.280057], [-87.655051, 30.247195], [-87.90699, 30.411504], [-87.934375, 30.657966], [-88.011052, 30.685351], [-88.10416, 30.499135], [-88.137022, 30.318396], [-88.394438, 30.367688], [-88.471115, 31.895754], [-88.241084, 33.796253], [-88.098683, 34.891641], [-88.202745, 34.995703], [-87.359296, 35.00118]]] } },
@@ -125,10 +128,8 @@ function createObj() {
         ]
     };
 
-    //var housing  = [{"state":"CA","average_home_price":567563.5833000001},{"state":"TX","average_home_price":208699.6667},{"state":"NY","average_home_price":271862.0833},{"state":"FL","average_home_price":257649.0833},{"state":"IL","average_home_price":210242.8333},{"state":"PA","average_home_price":194551.4167},{"state":"OH","average_home_price":150804.0},{"state":"MI","average_home_price":172127.1667},{"state":"GA","average_home_price":203632.0833},{"state":"NC","average_home_price":204960.75},{"state":"NJ","average_home_price":349843.6667},{"state":"VA","average_home_price":285270.5},{"state":"WA","average_home_price":412988.0833},{"state":"MA","average_home_price":434274.0},{"state":"IN","average_home_price":155086.9167},{"state":"AZ","average_home_price":267167.6667},{"state":"TN","average_home_price":184767.25},{"state":"MO","average_home_price":164080.5833},{"state":"MD","average_home_price":323450.0833},{"state":"WI","average_home_price":193552.5},{"state":"MN","average_home_price":261241.5},{"state":"CO","average_home_price":414845.3333},{"state":"AL","average_home_price":142704.5},{"state":"SC","average_home_price":192229.3333},{"state":"LA","average_home_price":170722.9167},{"state":"KY","average_home_price":146302.3333},{"state":"OR","average_home_price":365922.1667},{"state":"OK","average_home_price":129732.25},{"state":"CT","average_home_price":275120.5833},{"state":"IA","average_home_price":152071.5},{"state":"MS","average_home_price":125752.5},{"state":"AR","average_home_price":129892.25},{"state":"KS","average_home_price":153547.6667},{"state":"UT","average_home_price":354395.4167},{"state":"NV","average_home_price":319823.25},{"state":"NM","average_home_price":203118.75},{"state":"WV","average_home_price":108142.0},{"state":"NE","average_home_price":177362.4167},{"state":"ID","average_home_price":282628.4167},{"state":"HI","average_home_price":742220.8333000001},{"state":"ME","average_home_price":238261.0},{"state":"NH","average_home_price":303511.5},{"state":"RI","average_home_price":307510.25},{"state":"MT","average_home_price":286108.3333},{"state":"DE","average_home_price":262325.1667},{"state":"SD","average_home_price":213213.8333},{"state":"AK","average_home_price":299099.0},{"state":"ND","average_home_price":236859.0833},{"state":"VT","average_home_price":261071.3333},{"state":"DC","average_home_price":734414.9166999999},{"state":"WY","average_home_price":248255.0833}]
+    //Add housing, job count, breweries count, salary information to the js object.
     var feature = statesData.features;
-
-    //houses.map(item=>console.log(item));
     d3.json("/housing").then(data => {
         d3.json("/salary").then(salary => {
             d3.json("/ds_jobs").then(job => {
