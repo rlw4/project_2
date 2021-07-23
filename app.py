@@ -1,18 +1,16 @@
 import numpy as np
 import pandas as pd
-import json
 
-import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify, render_template
 
 
-password_1 = "postgres"
-password_2 = "superuser"
-database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/DataScienceJob"
+password_1 = ""
+password_2 = ""
+database_name = ""
+database_path = f"postgresql://{password_1}:{password_2}@localhost:5432/{database_name}"
 
 engine = create_engine(database_path)
 connection = engine.connect()
@@ -28,9 +26,11 @@ def welcome():
 @app.route('/about_us.html')
 def aboutus():
     return render_template('about_us.html')
+
 @app.route('/job_cloud.html')
 def job_cloud():
     return render_template('job_cloud.html')
+
 #Tianyue added interactive map route
 @app.route('/interactive_map.html')
 def interactive_map():
@@ -42,9 +42,11 @@ def housing():
     housing_df = pd.read_sql("SELECT * FROM housing", connection)
     housing_json = housing_df.to_json(orient = "records")
     return housing_json
+
 @app.route('/nostalgia.html')
 def nostalgia():
     return render_template('nostalgia.html')
+
 @app.route('/ds_jobs')
 def ds_jobs():
     ds_jobs_df = pd.read_sql("SELECT * FROM ds_jobs", connection)

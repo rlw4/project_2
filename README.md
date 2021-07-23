@@ -3,35 +3,45 @@ Data Science Job Search
 
 Group Members:
 
-Tianyue Yang, Corey Anderson, Riley Williamson, Abdellah Hady, Jennifer Gaddie
+Tianyue Yang, Corey Anderson, and Jennifer Gaddie
+(Riley Williamson also contributed to the early stages of this project.)
 
 Description: 
-		
-We propose to build an interactive website that is useful to bootcampers looking for a job in Data Science/Analytics. Our data source begins with a collection of tables from the ETL Project, consisting of five layers: ds_jobs, salary, breweries, and state_boundary. All records have a state ID. Here we propose to build a dynamic front-end for job seekers to map and make figures that will be useful when searching for a job. Some records (such as brewery locations) also have coordinates to map their locations within the states.
 
-We will use Bootstrap CSS and JavaScript with the D3.js and Leaflet libraries to make interactive maps and figures.
+Our goal was to build a simple Flask app for data science nerds looking for a job.
 
-The showcase piece will be a Leaflet map of the United States with the polygons representing state boundaries. The color fill changes based on the data source, and the user can hover over the state to get useful summary statistics.
+The data are from ETL Project T7 (https://github.com/coreydevinanderson/ETL_project_T7) and were stored as a PostgreSQL database with five tables: ds_jobs (job listings), salary (hourly and annual), breweries, and state_boundary. All records have a state ID and breweries also have lat/lon coordinates. We have included the table schema and source comma delimited files (see: /postgres_tables) to rebuild the SQL database; further details on data sources and cleaning procedures for the tables can be found in the ETL_project_T7 repository.
 
-We will have pages with useful summary figures. A page may include states with the most jobs or where the pay is the highest, simple bar plots, and another more artistic floating bubble plot (where the user can change the data.)
+For the current project, the showcase piece is a dynamic and fully-featured 'Leaflet' map of the US States with two base layers (Street and Satellite), a choropleth map indicating job counts (by state). Howevering on the state produces a side panel with demographic, job, and brewery data for each state; clicking on the state zooms in and changes the view extent to emphasize the state. There is an additional point theme layer for the breweries with an information panel (including url) when clicked.
 
-Potential challenges:
+In additional to the map, we have also included a job-themed wordcloud (via the d3-cloud javascript plugin) based on the ds_jobs table (with wordclouds for different columns in the table: category/Sector, company_name, city, and state). For the wordcloud, font size was scaled to range between 10 and 90 based the max and min of the count array. At the present time, the wordcloud shows the top 50 (with 48 words  for states because there were not jobs in all US states). Below, a Plotly bar plot highlights the top 10 with a hover tip giving the relative frequency of each category (out of the total number of samples).
 
-The polygon files used to plot in geopandas may not be useful in Leaflet, so some extra steps are required to make this functional (but it is feasible).
-There are many data layers (and columns in several of the tables). We need to consider the best way to read in all the data and then read it via D3.js.
-Some columns may need to be dropped to make the plotting options simpler.
+All other componenets of the website were built with Bootstrap 5.0 CSS.
+
+Website:
+
+"DataScienceJobs":                      template
+Landing page with carousel              /index.html
+
+"About US"
+Author information on cards             /about_us.html 
+
+"Data Pages"
+    "Job Cloud"                         /job_cloud.html
+    "Interactive Map"                   /interactive_map.html
+    "I wouldn't/You did anyway          /nostalgia.html
 
 
-Sketch of final design: Use HTML/CSS/JAVASCRIPT (plotly, D3, leaflet)
+static/css  style.css
 
-Home Page
-Will include basic information about the project, teaser pictures, navigation, team info.
+static/js   config.js
+            data.js
+            map.js
+            word_cloud.js
 
-Basic Charts
-Summary level non-interactive charts for the available data set appear here.
-One interactive “fancy” plot is included as well.
+images/     (see .html for pictures that were chosen)
 
-D3/leaflet
-The interactive map shows job posting information per state. Hover over the state offers a breakdown of the data (housing price, jobs by title, salary, etc.)
-Multiple layers for the map (salary, where job posted, brewery location, etc. detail are to be determined.)
+app.py      Flask app
+            w/ pandas, numpy, and sqlalchemy
+
 
